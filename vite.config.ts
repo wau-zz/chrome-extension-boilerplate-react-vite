@@ -45,7 +45,7 @@ export default defineConfig({
         panel: resolve(pagesDir, "panel", "index.html"),
         content: resolve(pagesDir, "content", "index.ts"),
         background: resolve(pagesDir, "background", "index.ts"),
-        contentStyle: resolve(pagesDir, "content", "style.scss"),
+        contentStyle: resolve(pagesDir, "content", "contentStyle.scss"),
         popup: resolve(pagesDir, "popup", "index.html"),
         newtab: resolve(pagesDir, "newtab", "index.html"),
         options: resolve(pagesDir, "options", "index.html"),
@@ -60,17 +60,10 @@ export default defineConfig({
           ? "assets/js/[name].js"
           : "assets/js/[name].[hash].js",
         assetFileNames: (assetInfo) => {
-          const { dir, name: _name } = path.parse(assetInfo.name);
-          const assetFolder = dir.split("/").at(-1);
-          const name = assetFolder + firstUpperCase(_name);
-          return `assets/[ext]/${name}.chunk.[ext]`;
+          const { name: _name } = path.parse(assetInfo.name);
+          return `assets/[ext]/${_name}.chunk.[ext]`;
         },
       },
     },
   },
 });
-
-function firstUpperCase(str: string) {
-  const firstAlphabet = new RegExp(/( |^)[a-z]/, "g");
-  return str.toLowerCase().replace(firstAlphabet, (L) => L.toUpperCase());
-}
